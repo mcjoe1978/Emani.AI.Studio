@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Emani AI Studio – prototip</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070907;--panel:#0f130f;--line:#1f281f;--tx:#f4f7f4;--mut:#8a978a;--g:#2ee66b;--gd:#0b3d1e;--stage:#e9ece9;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#070907}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;overflow-x:clip;background:radial-gradient(ellipse 60% 40% at 90% 0%,rgba(46,230,107,.22),transparent 70%),radial-gradient(ellipse 50% 40% at 0% 60%,rgba(46,230,107,.10),transparent 70%),var(--bg);color:var(--tx);font:400 15px/1.5 "DM Sans",system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+header,.hero,main{position:relative;z-index:1}
+h1,h2,.brand{font-family:"Bricolage Grotesque","DM Sans",system-ui,sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line)}
+.brand{font-weight:800;font-size:20px;letter-spacing:-.02em}.brand b{color:var(--g)}
+.tag{font-size:13px;color:var(--mut)}
+.hero{padding:28px 20px 8px;max-width:1180px;margin:auto}.hero::before{content:"";position:absolute;right:-60px;top:-50px;width:340px;height:340px;background:radial-gradient(circle,rgba(46,230,107,.38),transparent 65%);filter:blur(12px);pointer-events:none;z-index:-1}
+.hero h1{font-size:clamp(28px,5vw,48px);line-height:1.05;margin:0 0 10px;letter-spacing:-.03em;font-weight:800}
+.hero p{margin:0;color:var(--mut);max-width:560px}
+main{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;max-width:1180px;margin:auto;padding:20px}
+.stage{background:var(--stage);border-radius:20px;position:sticky;top:12px;align-self:start;padding:16px;display:flex;flex-direction:column;align-items:center;transition:background .3s}
+.stage svg.shirt{width:100%;max-width:460px;height:auto;display:block}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+.chip{background:#0b0b0b;color:#fff;border-radius:99px;padding:4px 12px;font-size:13px}
+.panel{display:flex;flex-direction:column;gap:14px}
+.card{background:linear-gradient(160deg,#141a14,#0b0e0b);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.05)}
+.card h2{font-size:16px;margin:0 0 10px;font-weight:700}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.opt{flex:1 1 auto;min-height:44px;padding:8px 14px;background:transparent;color:var(--tx);border:1px solid var(--line);border-radius:12px;font:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.opt[aria-pressed="true"]{border-color:var(--g);background:var(--gd);color:#fff}
+.opt.sz{flex:0 0 auto;min-width:54px}
+.sw{width:18px;height:18px;border-radius:50%;border:1px solid #666;display:inline-block}
+textarea,input[type=text]{width:100%;background:#050705;color:var(--tx);border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit}
+textarea{min-height:84px;resize:vertical}
+textarea:focus,input:focus,.opt:focus-visible,.btn:focus-visible,.var:focus-visible{outline:2px solid var(--g);outline-offset:2px}
+.btn{min-height:48px;border:0;border-radius:12px;background:linear-gradient(135deg,#2ee66b,#b6ff4d);box-shadow:0 8px 24px rgba(46,230,107,.3);color:#031a0c;font:700 16px "DM Sans",sans-serif;cursor:pointer;padding:0 18px;width:100%;margin-top:10px}
+.btn.alt{background:transparent;box-shadow:none;color:var(--tx);border:1px solid var(--line)}
+.vars{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.var{background:var(--panel);color:var(--tx);border:2px solid var(--line);border-radius:14px;padding:6px;cursor:pointer;font:inherit;display:flex;flex-direction:column;gap:6px;text-align:left}.var small{font-size:12px;color:var(--mut);line-height:1.2}.var b{display:block;color:var(--tx);font-size:13px}
+.var[aria-pressed="true"]{border-color:var(--g)}
+.var svg{width:100%;aspect-ratio:1;height:auto}
+.ph{color:var(--mut);font-size:14px;padding:10px 0}
+label.sl{display:flex;justify-content:space-between;color:var(--mut);font-size:14px}
+input[type=range]{width:100%;accent-color:var(--g);height:32px}
+.price{display:flex;justify-content:space-between;align-items:baseline}
+.price strong{font:800 34px "Bricolage Grotesque",sans-serif;color:var(--g)}
+.note{font-size:13px;color:var(--mut)}
+.up{border:1px dashed var(--line);border-radius:12px;padding:14px;text-align:center;color:var(--mut);cursor:pointer}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(30px);background:var(--g);color:#031a0c;padding:12px 18px;border-radius:12px;font-weight:700;opacity:0;transition:.3s;pointer-events:none;max-width:90vw;text-align:center}
+#toast.on{opacity:1;transform:translateX(-50%)}
+@media (max-width:860px){main{grid-template-columns:1fr;padding:14px}.stage{position:sticky;top:0;z-index:5;padding:8px;border-radius:0 0 18px 18px;margin:0 -14px}.stage svg.shirt{max-height:42vh}.hero{padding-top:18px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="brand">Emani <b>AI</b> Studio</div><div class="tag">Prototip vizual · Emani Print Store</div></header>
+<div class="hero"><h1>Descrie ideea. Noi o transformăm în print.</h1><p>Scrie ce îți dorești, alege din 3 variante generate și vezi imediat cum arată pe tricou sau hanorac.</p></div>
+<main>
+<section class="stage" id="stage" aria-label="Previzualizare produs">
+<svg class="shirt" id="shirt" viewBox="0 0 300 340" role="img" aria-label="Simulare produs"></svg>
+<div class="chips"><span class="chip" id="c1"></span><span class="chip" id="c2"></span><span class="chip" id="c3"></span><span class="chip" id="c4" style="background:#0b3d1e"></span></div>
+</section>
+<section class="panel">
+<div class="card"><h2>Produs</h2>
+<div class="row" id="gProd"><button class="opt" data-v="tricou" aria-pressed="true">Tricou</button><button class="opt" data-v="hanorac" aria-pressed="false">Hanorac</button></div></div>
+<div class="card"><h2>Culoare și mărime</h2>
+<div class="row" id="gCol" style="margin-bottom:10px"><button class="opt" data-v="alb" aria-pressed="false"><span class="sw" style="background:#fff"></span>Alb</button><button class="opt" data-v="negru" aria-pressed="true"><span class="sw" style="background:#000"></span>Negru</button></div>
+<div class="row" id="gSize"></div></div>
+<div class="card"><h2>Zona de print</h2>
+<div class="row" id="gSide"><button class="opt" data-v="față" aria-pressed="true">Față</button><button class="opt" data-v="spate" aria-pressed="false">Spate</button></div></div>
+<div class="card"><h2>Descrie designul</h2>
+<textarea id="prompt">Un design futurist, minimalist, pentru un pasionat de muzică electronică</textarea>
+<button class="btn" id="gen">Generează 3 variante</button>
+<div style="margin-top:12px"><div class="vars" id="vars"></div><div class="ph" id="ph">Variantele apar aici. În prototip sunt desene demonstrative; în aplicația reală le creează AI-ul.</div></div></div>
+<div class="card"><h2>Text opțional (jos pe design)</h2>
+<input type="text" id="txt" maxlength="24" placeholder="ex: NUME / SLOGAN" value="BASS ADDICT"></div>
+<div class="card"><h2>Poziție și mărime</h2>
+<label class="sl"><span>Mărime grafică</span><span id="szv">100%</span></label><input type="range" id="scale" min="40" max="100" value="100">
+<label class="sl"><span>Mută sus / jos</span><span></span></label><input type="range" id="ypos" min="-20" max="40" value="0">
+<div class="up" id="up">Încarcă poza sau logo-ul tău (PNG, JPG, SVG · recomandat 300 DPI)</div>
+<div class="note">Designul rămâne în chenarul punctat (suprafața maximă de print). Verificarea rezoluției vine în etapa 2.</div></div>
+<div class="card"><div class="price"><span>Preț estimativ</span><strong id="price">1 lei</strong></div>
+<div class="note" id="pnote">Prețuri de test, le înlocuim cu cele reale.</div>
+<button class="btn" id="save">Salvează proiectul</button>
+<button class="btn alt" id="quote">Cere ofertă</button></div>
+</section>
+</main>
+<div id="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s);
+const S={prod:'tricou',col:'negru',size:'M',side:'față',v:0};
+const sizes=['XS','S','M','L','XL','2XL'];
+const gSize=$('#gSize');
+sizes.forEach(z=>{const b=document.createElement('button');b.className='opt sz';b.dataset.v=z;b.textContent=z;b.setAttribute('aria-pressed',z==S.size);gSize.appendChild(b)});
+function group(id,key){$(id).addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;$(id).querySelectorAll('.opt').forEach(x=>x.setAttribute('aria-pressed',x===b));S[key]=b.dataset.v;render()})}
+group('#gProd','prod');group('#gCol','col');group('#gSize','size');group('#gSide','side');
+['scale','ypos','txt'].forEach(i=>$('#'+i).addEventListener('input',render));
+function splash(a){return `<path d="M100 14 C140 8 188 40 184 96 C182 150 150 190 96 186 C44 182 12 140 18 90 C22 44 58 18 100 14Z" fill="${a}" opacity=".16"/>`+[[28,30,5],[176,40,4],[170,172,6],[24,168,3.5]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${a}" opacity=".5"/>`).join('')}
+function design(i,c,a,g=1){const s={
+0:`<g fill="none" stroke="${c}" stroke-width="2.5"><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="48"/><circle cx="100" cy="100" r="26" stroke="${a}"/></g><g fill="${a}">${[0,1,2,3,4,5,6].map(k=>`<rect x="${30+k*20}" y="${100-[10,28,44,60,44,28,10][k]/2}" width="10" height="${[10,28,44,60,44,28,10][k]}"/>`).join('')}</g>`,
+1:`<g fill="none" stroke="${c}" stroke-width="2.5"><path d="M100 20 L175 150 L25 150 Z"/><path d="M100 60 L145 138 L55 138 Z" stroke="${a}"/></g><g stroke="${c}" stroke-width="1.5">${[0,1,2,3,4].map(k=>`<line x1="20" y1="${165+k*6}" x2="180" y2="${165+k*6}" opacity="${1-k*.2}"/>`).join('')}</g>`,
+2:`<path d="M10 100 Q30 20 50 100 T90 100 T130 100 T170 100 T190 100" fill="none" stroke="${a}" stroke-width="5" stroke-linecap="round"/><path d="M10 120 Q30 60 50 120 T90 120 T130 120 T170 120 T190 120" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round"/><circle cx="100" cy="100" r="86" fill="none" stroke="${c}" stroke-width="2" stroke-dasharray="3 7"/>`};return `<g filter="url(#gr)" transform="rotate(${((g-1)%4)*90} 100 100)">${splash(a)}${s[i]}</g>`}
+function shirtPath(){
+const hood=S.prod==='hanorac',back=S.side==='spate';
+const body=hood?'M92 40 L52 56 L8 150 L48 170 L68 140 L68 322 L232 322 L232 140 L252 170 L292 150 L248 56 L208 40 Q150 '+(back?64:78)+' 92 40Z':'M100 20 L60 35 L10 90 L45 115 L70 95 L70 320 L230 320 L230 95 L255 115 L290 90 L240 35 L200 20 Q150 '+(back?38:56)+' 100 20Z';
+return {body,hood,extra:hood?`<path d="M92 40 Q150 -14 208 40 Q150 '+(back?64:78)+' 92 40Z" fill="var(--sh2)"/><rect x="104" y="250" width="92" height="46" rx="8" fill="none" stroke="var(--sh3)" stroke-width="1.5"/>`.replace(/'\+\(back\?64:78\)\+'/g,back?64:78):''}}
+function render(){
+const dark=S.col==='negru',st=$('#stage');
+st.style.background=dark?'radial-gradient(circle at 50% 25%,#fff,#c9d1c9)':'radial-gradient(circle at 50% 25%,#1f4a2c,#090c09)';
+const fill=dark?'#0c0d0c':'#f6f6f4',sh2=dark?'#171917':'#e6e6e2',sh3=dark?'#2a2d2a':'#cfcfca';
+const c=dark?'#ffffff':'#0a0a0a',a=dark?'#2ee66b':'#0f9d44';
+const p=shirtPath(),sc=$('#scale').value/100,dy=+$('#ypos').value,t=$('#txt').value.trim();
+$('#szv').textContent=$('#scale').value+'%';
+const AW=112,AH=128,ax=150-AW/2,ay=p.hood?80:64,w=AW*sc,h=w,x=150-w/2,tb=([186,189,188][S.v]||188)/200*h;let y=ay+4+dy;y=Math.max(ay,Math.min(y,ay+AH-(h+14)));const area=`<rect x="${ax}" y="${ay}" width="${AW}" height="${AH}" rx="3" fill="none" stroke="#2ee66b" stroke-width="1.2" stroke-dasharray="4 4"/><text x="150" y="${ay+AH+9}" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="6.5" fill="#2ee66b">Suprafață max. de print 14×16 in</text>`;
+const des=S.v===null?'':`<svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="0 0 200 200">${design(S.v,c,a,G)}</svg>`;
+const tx=t&&S.v!==null?`<text x="150" y="${y+tb+12*sc}" text-anchor="middle" font-family="Bricolage Grotesque,sans-serif" font-weight="800" font-size="${Math.max(9,13*sc)}" letter-spacing="2" fill="${c}">${t.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</text>`:'';
+$('#shirt').style.cssText=`--sh2:${sh2};--sh3:${sh3}`;
+$('#shirt').innerHTML=`<defs><linearGradient id="f" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".12"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".25"/></linearGradient><filter id="gr" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 9 0 0 0 -3.4" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in"/></filter></defs>${p.extra.startsWith('<path')?'':''}<path d="${p.body}" fill="${fill}"/>${p.hood?p.extra:''}<path d="${p.body}" fill="url(#f)"/>${area}${S.v===null?'':`<g opacity=".97">${des}${tx}</g>`}`;
+$('#c1').textContent=S.prod[0].toUpperCase()+S.prod.slice(1)+' · '+S.col;$('#c2').textContent='Mărime '+S.size;$('#c3').textContent='Print '+S.side;$('#c4').textContent=V.length?V[S.v].name+' · '+V[S.v].code:'';$('#c4').style.display=V.length?'':'none';if(drawn!==S.col){drawn=S.col;drawVars()}
+let pr=S.prod==='tricou'?1:2;if(S.side==='spate')pr+=1;if(t)pr+=1;
+$('#price').textContent=pr+' lei';
+}
+$('#gen').addEventListener('click',()=>{const b=$('#gen');b.textContent='Se generează…';b.disabled=true;
+setTimeout(()=>{b.textContent='Generează alte 3 variante';b.disabled=false;$('#ph').style.display='none';
+const dk=S.col==='negru';makeV();drawVars();render()},900)});
+$('#vars').addEventListener('click',e=>{const b=e.target.closest('.var');if(!b)return;S.v=+b.dataset.i;$('#vars').querySelectorAll('.var').forEach(x=>x.setAttribute('aria-pressed',x===b));render()});
+const NAMES=['Orbit','Prisma','Pulse','Neon Drift','Static','Apex','Voltage','Echo','Nova'];
+let G=0,V=[],drawn='';
+function makeV(){G++;V=[0,1,2].map(i=>({name:NAMES[(G*3+i)%NAMES.length],code:'EAS-'+(1000+G*3+i)}));S.v=0}
+function drawVars(){const dk=S.col==='negru';$('#vars').innerHTML=V.map((v,i)=>`<button class="var" data-i="${i}" aria-pressed="${i===S.v}" aria-label="${v.name} ${v.code}"><svg viewBox="0 0 200 200" style="background:${dk?'#0c0d0c':'#fff'};border-radius:10px">${design(i,dk?'#fff':'#0a0a0a',dk?'#2ee66b':'#0f9d44',G)}</svg><small><b>${v.name}</b>${v.code}</small></button>`).join('')}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2600)}
+$('#save').onclick=()=>toast('În versiunea reală salvăm grafica de print și simularea separat.');
+$('#quote').onclick=()=>toast('În versiunea reală trimitem cererea ta către Emani Print Store.');
+$('#up').onclick=()=>toast('Încărcarea de imagini vine în etapa 2.');
+makeV();$('#ph').style.display='none';render();
+</script>
+</body>
+</html>
